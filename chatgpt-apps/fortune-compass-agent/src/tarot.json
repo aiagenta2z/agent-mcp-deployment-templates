@@ -1,0 +1,10 @@
+[
+  { "name": "The Fool", "description": "Upright: New beginnings, optimism, leap of faith. Reversed: Recklessness, risk-taking, holding back.", "image_url": "the-fool.jpg" },
+  { "name": "The Magician", "description": "Upright: Manifestation, resourcefulness, power. Reversed: Manipulation, poor planning, untapped talents.", "image_url": "the-magician.jpg" },
+  { "name": "The High Priestess", "description": "Upright: Intuition, subconscious, mystery. Reversed: Secrets, disconnected from intuition, withdrawal.", "image_url": "the-high-priestess.jpg" },
+  { "name": "The Empress", "description": "Upright: Abundance, femininity, nature. Reversed: Creative block, dependence, smothering.", "image_url": "the-empress.jpg" },
+  { "name": "The Emperor", "description": "Upright: Authority, structure, protection. Reversed: Tyranny, rigidity, lack of discipline.", "image_url": "the-emperor.jpg" },
+  { "name": "The Hierophant", "description": "Upright: Tradition, spiritual wisdom, conformity. Reversed: Rebellion, personal beliefs, non-conformity.", "image_url": "the-hierophant.jpg" },
+  { "name": "The Lovers", "description": "Upright: Harmony, relationships, choices. Reversed: Disharmony, imbalance, misalignment of values.", "image_url": "the-lovers.jpg" },
+  { "name": "The Chariot", "description": "Upright: Victory, willpower, discipline. Reversed: Lack of direction, aggression, loss of control.", "image_url": "the-chariot.jpg" }
+]

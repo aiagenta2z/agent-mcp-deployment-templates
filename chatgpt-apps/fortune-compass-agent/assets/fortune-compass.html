@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fortune Compass</title>
+
+  <style>
+    :root {
+      --bg: #0f1220;
+      --card-bg: #1a1f3c;
+      --accent: #f5c16c;
+      --text: #eaeaf0;
+      --muted: #9aa0c4;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .header span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .fortune-card {
+      background: linear-gradient(160deg, #1b2040, #141733);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    /* ---------- Flip Card ---------- */
+
+    .flip-scene {
+      perspective: 1000px;
+      margin-bottom: 14px;
+    }
+
+    .flip-card {
+      width: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s cubic-bezier(.4,.2,.2,1);
+    }
+
+    .flip-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card-face img {
+      width: 100%;
+      display: block;
+    }
+
+    .card-front {
+      transform: rotateY(180deg);
+    }
+
+    /* ---------- Text ---------- */
+
+    .fallback-symbol {
+      font-size: 42px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .method {
+      text-align: center;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .interpretation {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .summary {
+      font-size: 13px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.06);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔮 Fortune Compass</h1>
+      <span>The oracle reveals your path</span>
+    </div>
+
+    <div id="fortune" class="fortune-card" hidden>
+
+      <!-- Tarot Flip -->
+      <div id="flip-scene" class="flip-scene" hidden>
+        <div id="flip-card" class="flip-card">
+          <div class="card-face card-back">
+            <img src="http://localhost:4444/card_back.png" alt="Card Back" />
+          </div>
+          <div class="card-face card-front">
+            <img id="card-image" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Non-tarot fallback -->
+      <div id="fallback-symbol" class="fallback-symbol" hidden></div>
+
+      <div class="title" id="title"></div>
+      <div class="method" id="method"></div>
+      <div class="interpretation" id="interpretation"></div>
+      <div class="summary" id="summary"></div>
+    </div>
+  </div>
+
+<script>
+
+  const STATIC_BASE = "http://localhost:4444";
+
+  function renderFortune(fortunes) {
+    const container = document.getElementById("fortune-container");
+    container.innerHTML = ""; // clear previous
+
+    if (!fortunes) return;
+
+    Object.entries(fortunes).forEach(([method, data]) => {
+      const card = document.createElement("div");
+      card.className = "fortune-card";
+
+      // Flip card (for tarot)
+      let flipSceneHtml = "";
+      if (data.cardImage) {
+        flipSceneHtml = `
+          <div class="flip-scene">
+            <div class="flip-card">
+              <div class="card-face card-back">
+                <img src="${STATIC_BASE}/card-back.jpg" alt="Card Back" />
+              </div>
+              <div class="card-face card-front">
+                <img src="${STATIC_BASE}/${data.cardImage}" />
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        flipSceneHtml = `<div class="fallback-symbol">${data.symbol || "✨"}</div>`;
+      }
+
+      card.innerHTML = `
+        ${flipSceneHtml}
+        <div class="title">${data.title || ""}</div>
+        <div class="method">${method}</div>
+        <div class="interpretation">${data.interpretation || ""}</div>
+        <div class="summary">${data.summary || ""}</div>
+      `;
+
+      container.appendChild(card);
+
+      // trigger flip animation if tarot
+      if (data.cardImage) {
+        const flipCard = card.querySelector(".flip-card");
+        setTimeout(() => {
+          flipCard.classList.add("flipped");
+        }, 600);
+      }
+    });
+  }
+
+  if (window.__OPENAI_DATA__?.structuredContent) {
+    renderFortune(window.__OPENAI_DATA__.structuredContent);
+  }
+</script>
+
+</body>
+</html>
