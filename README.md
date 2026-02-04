@@ -1,6 +1,5 @@
-# agent_mcp_deployment
+# Agent MCP Deployment Platform - AI Agent A2Z Middleware
 AI Agent and MCP Server Hosting and Deployment Service
-
 
 ## Agent and MCP Deployment Middleware and Hosting Infrastructure - DeepNLP x AI Agent A2Z
 
@@ -17,19 +16,22 @@ DeepNLP x AI Agent A2Z (aiagenta2z.com) provide public hosting service of AI Age
 2. GitHub/Source Code: Support both Python/Typescript, which is just like how you start your Agent locally, you can deploy in our cloud container and save money of without the heavy cost of renting a cloud server or get a domain name by yourself.
 3. Templates: We provides 20+ templates in various business models, such as `selling product` and `digital resources` e-commerce products agent/mcps as resources, vendors and content creators can expose their physical goods, digital resources (documents,files,online courses) etc to ChatGPT/Cursor. 
 4. SubDomain URL: Each user can have a unique subdomain URL for your agents, able to verification and hosting services.
+5. Domain Verification: We support subdomain verification for various platforms, such as OpenAI, WeCom, WeChat, DingTalk, etc.
+6. API Monitor and Credit Rewards: You can visit the [Deployed Agent API Dashboard](https://deepnlp.org/workspace/api_dashboard) to see the metric of your Deploy Agent & MCP and [Billing Credits](https://deepnlp.org/workspace/billing) earned.
+
 
 #### Examples of demo projects deployed
-| Deployment Type          | Deployed SubDomain URL                              | Intro                                                                                                        |
-|--------------------------|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| Source Code Python       | https://jjjmc.aiagenta2z.com/perplexity_agent/mcp   | Perplexity API Deep Search Agent <br> [Github](https://github.com/jjjmc/perplexity_agent)                    |
-| Source Code Node         | https://derekzz.aiagenta2z.com/fortune-compass-agent/mcp   | Fortune Telling Agent ChatGPT Apps <br> [Github](https://github.com/AI-Hub-Admin/fortune-compass-agent)                   |
-| GitHub URL               | https://derek.aiagenta2z.com/solar-system_server_python/mcp | ChatGPT App with MCP ans Assets <br>  [ChatGPT Apps SDK](https://github.com/openai/openai-apps-sdk-examples) |
-| Template-Selling Product | -                                                   | -                                                                                                            |
+| Deployment Type          | Deployed SubDomain URL                                        | Intro                                                                                                        |
+|--------------------------|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Source Code Python       | https://jjjmc.aiagenta2z.com/perplexity_agent/mcp             | Perplexity API Deep Search Agent <br> [Github](https://github.com/jjjmc/perplexity_agent)                    |
+| Source Code Node         | https://derekzz.aiagenta2z.com/fortune-compass-agent/mcp      | Fortune Telling Agent ChatGPT Apps <br> [Github](https://github.com/AI-Hub-Admin/fortune-compass-agent)                   |
+| GitHub URL               | https://derekzz.aiagenta2z.com/solar-system_server_python/mcp | ChatGPT App with MCP ans Assets <br>  [ChatGPT Apps SDK](https://github.com/openai/openai-apps-sdk-examples) |
+| Template-Selling Product | -                                                             | -                                                                                                            |
 
 
 ## Quickstart
 
-### Deploy From Source Code
+### 1. Deploy From Source Code
 
 #### User Case - Hosting a Perplexity Deep Research Agent MCP
 <img src="https://raw.githubusercontent.com/aiagenta2z/agent_mcp_deployment/refs/heads/main/docs/agent_mcp_deployment_panel.png" style="height:400px;" alt="AI Agent Marketplace Category">
@@ -77,7 +79,7 @@ Click deploy button and please wait a while for the deployment to complete and y
 MCP SERVER URL: `https://jjjmc.aiagenta2z.com/perplexity_agent/mcp `
 
 
-### Deploy From GitHub Repo
+### 2. Deploy From GitHub Repo
 
 <img src="https://raw.githubusercontent.com/aiagenta2z/agent_mcp_deployment/refs/heads/main/docs/agent_deployment_github.jpg" style="height:400px;" alt="AI Agent Marketplace Category">
 
@@ -137,9 +139,59 @@ Copy and Paste into your Client
 }
 ```
 
-### Deploy From Template (Beta)
+### 3. Deploy From Template (Beta)
 
 #### Use Case 1 Selling products
+
+
+
+
+
+### 4. Domain Verification
+
+The AI Agent A2Z Agent & MCP platform provides subdomain verification services to help you submit your deploy agents 
+to various Apps Store and verify that you own the domains, such as ChatGPT App Store, MCP Official Registry, WeCom (Tencent), WeChat, DingTalk, etc.
+
+Go to Deployment -> Deployment Configuration -> Domain Verification tab
+
+You can choose your sites that need to verify for your customized subdomain: https://{username}.aiagenta2z.com
+Switch the tab, fill in the filename and content value, the just one click "Verify Domain".
+
+| App                 | Verification URL                                                     |
+|---------------------|----------------------------------------------------------------------|
+| ChatGPT App Store   | https://{username}.aiagenta2z.com/.well-known/openai-apps-challenge  |
+| MCP Official Registry | https://{username}.aiagenta2z.com/.well-known/mcp-register-challenge |
+| WeCom (Tencent)     | https://{username}.aiagenta2z.com/WW_verify_xxxxxx.txt               |
+| WeChat              | https://{username}.aiagenta2z.com/MP_verify_xxxxxx.txt               |
+| DingTalk            | https://{username}.aiagenta2z.com/verify_xxxxxx.txt                  |
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/ai-agent-marketplace/refs/heads/main/docs/verified_domain_list.jpg" style="height:400px;" alt="AI Agent Marketplace Category">
+
+#### ChatGPT App Submission and Domain Verification
+
+On the ChatGPT App Manage Page (https://platform.openai.com/apps-manage), you can submit your AI Agent by filling the form.
+You need to prepare a MCP Server URL (e.g. https://derekzz.aiagenta2z.com/fortune-compass-agent/mcp) and copy and paste the 
+verification code under the file path (https://derekzz.aiagenta2z.com/.well-known/openai-apps-challenge). 
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/ai-agent-marketplace/refs/heads/main/docs/domain_verification_before.png" style="height:400px;" alt="AI Agent Marketplace Category">
+
+You can go to the `Domain Verification` tab of AI Agent A2Z Deployment (https://deepnlp.org/workspace/deploy) platform.
+
+Fill the form of `openai-apps-challenge` with the code on the platform. Then click `Verify Domain` to add a record.
+Please wait a while for the record to work. If you want to change the content, just add a new record and the content will be overridden.
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/ai-agent-marketplace/refs/heads/main/docs/domain_verification_after.png" style="height:400px;" alt="AI Agent Marketplace Category">
+
+
+### 5. Agent API Dashboard and Credits Account
+
+After you have deployed your AI Agent (e.g. https://derekzz.aiagenta2z.com/fortune-compass-agent/mcp). The [Deployed Agent API Dashboard](https://deepnlp.org/workspace/api_dashboard) will monitor the incoming traffic to the endpoint.
+
+You can also visit the detail page to set API credit per call and you can start earn credits from your hard work.
+Visit the [Billing Credits](https://deepnlp.org/workspace/billing) for detail reports.
+
+<img src="https://raw.githubusercontent.com/AI-Hub-Admin/fortune-compass-agent/refs/heads/main/docs/fortune_compass_traffic_monitor.png" style="height:400px;" alt="AI Agent Marketplace Category">
+
 
 
 ## Q&A Trouble Shooting
