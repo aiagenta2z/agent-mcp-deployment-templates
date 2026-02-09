@@ -29,6 +29,16 @@ DeepNLP x AI Agent A2Z (aiagenta2z.com) provide public hosting service of AI Age
 | Template-Selling Product | -                                                             | -                                                                                                            |
 
 
+
+### Support Packages
+| Deployment Type   | Intro                                                                                            |
+|-------------------|--------------------------------------------------------------------------------------------------|
+| Support Agent SDK | [langchain](https://www.langchain.com/agents) | [agentscope](https://doc.agentscope.io/tutorial/) |
+
+
+
+
+
 ## Quickstart
 
 ### 1. Deploy From Source Code
