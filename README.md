@@ -1,3 +1,5 @@
+
+
 # Agent MCP Deployment Platform - AI Agent A2Z Middleware
 AI Agent and MCP Server Hosting and Deployment Service
 
@@ -21,12 +23,14 @@ DeepNLP x AI Agent A2Z (aiagenta2z.com) provide public hosting service of AI Age
 
 
 #### Examples of demo projects deployed
-| Deployment Type          | Deployed SubDomain URL                              | Intro                                                                                                                                       |
-|--------------------------|-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| Source Code              | https://jjjmc.aiagenta2z.com/perplexity_agent/mcp   | Perplexity API Deep Search Agent <br> [Github](https://github.com/jjjmc/perplexity_agent)                                                   |
-| GitHub                   | https://derek.aiagenta2z.com/solar-system_server_python/mcp | ChatGPT App with MCP ans Assets <br>  [ChatGPT Apps SDK](https://github.com/openai/openai-apps-sdk-examples)                                |
-| GitHub                   | https://agentscope.aiagenta2z.com/deep_research_agent/chat  | AgentScope, Qwen3 + Tavily Live Chat Endpoint and expose chat [Playground](https://agent.deepnlp.org/?agent=agentscope/deep_research_agent) |
-| Template-Selling Product | -                                                   | -                                                                                                                                           |
+| Deployment Type  | Framework / Package         | Example Folder                                                                                         | Live URL                                                    | Description                                                                                                                           |
+|------------------|-----------------------------|--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| Source Code      | Perplexity API DeepResearch | https://github.com/jjjmc/perplexity_agent                                                                                                       | https://jjjmc.aiagenta2z.com/perplexity_agent/mcp           | Perplexity API Deep Search Agent                                                                                                      |
+| GitHub Repo      | LangChain DeepAgents        | [`langchain_deepagents/deep_research`](./langchain_deepagents/deep_research/README.md)                 | -                                                           | LangChain [Examples](https://github.com/langchain-ai/deepagents) DeepResearch Agent of Tavily and Gemini model                        |
+| GitHub Repo      | LangChain DeepAgents        | [`langchain_deepagents/content-builder-agent`](./langchain_deepagents/content-builder-agent/README.md) | -                                                           | LangChain [Examples](https://github.com/langchain-ai/deepagents)  AI Content Builder + Image Generation Agent with Skills + Subagents |
+| GitHub Repo      | ChatGPT Apps SDK            | [`chatgpt-apps/fortune-compass-agent`](./chatgpt-apps/fortune-compass-agent/README.md)                 | https://derek.aiagenta2z.com/solar-system_server_python/mcp | ChatGPT App with MCP + Assets                                                                                                         |
+| GitHub Repo      | AgentScope + Qwen3 + Tavily | [`agentscope_examples/deep_research_agent`](./agentscope_examples/deep_research_agent/README.md)       | https://agentscope.aiagenta2z.com/deep_research_agent/chat  | AgentScope Deep Research Live Chat                                                                                                    |
+| Template Product | Deployment Templates        |                                                                | -                                                           | Deployment Template of OpenClaw/E-Commerce/etc                                                                                        |
 
 
 ### Support SDK and Packages
@@ -154,7 +158,7 @@ Copy and Paste into your Client
 
 #### AgentScope Example-DeepResearch Agent
 
-Example GitHub: https://github.com/aiagenta2z/agent-mcp-deployment-templates/agentscope_examples/deep_research_agent
+[Example GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/agentscope_examples/deep_research_agent)
 
 We will implement and deploy a agentscope based deep-research agent, converting the original [deep research example](https://github.com/agentscope-ai/agentscope/tree/main/examples/agent/deep_research_agent) to
 an FastAPI Server and expose the "/chat" API endpoint so that users can call the deep research agent by parameters `messages` and 
