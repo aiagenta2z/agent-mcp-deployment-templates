@@ -11,7 +11,7 @@ from .research_agent.tools import tavily_search, think_tool
 tools = [tavily_search, think_tool]
 
 from datetime import datetime
-from utils import show_prompt, format_messages
+from .utils import show_prompt, format_messages
 from .research_agent.prompts import (
     RESEARCHER_INSTRUCTIONS,
     RESEARCH_WORKFLOW_INSTRUCTIONS,
@@ -122,6 +122,7 @@ async def deepagents_stream_generator(agent: Any, user_query: str, **kwargs) -> 
                                  content_type=CONTENT_TYPE_MARKDOWN, section = SECTION_ANSWER, message_id = message_id, template=TEMPLATE_STREAMING_CONTENT_TYPE)
             )
             yield output_chunk + STREAMING_SEPARATOR_DEFAULT
+            await asyncio.sleep(0)
 
     except Exception as e:
         print (f"customize_stream_generator failed with error {e}")
