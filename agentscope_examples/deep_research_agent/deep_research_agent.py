@@ -351,12 +351,13 @@ class DeepResearchAgent(ReActAgent):
                     Msg(self.name, content=[tool_call], role="assistant")
                 )
                 ##
-                yield f"Deep Research Calling Tool {tool_call}..."
+                yield f"Deep Research Calling Tool {tool_call}"
                 await asyncio.sleep(0)
                 msg_response = await self._acting(tool_call)
                 if msg_response:
                     yield f"Deep Research Calling Tool Result..."
-                    yield f"{msg_response.content}"
+                    msg_response_text = msg_response.content
+                    yield f"Tool Call Content {msg_response_text}"
                     await asyncio.sleep(0)
 
                     await self.memory.add(msg_response)
@@ -364,7 +365,11 @@ class DeepResearchAgent(ReActAgent):
 
         # When max iterations reached, summarize all the findings
         summary_msg = await self._summarizing()
-        yield summary_msg.content
+        yield f"Summary \n {summary_msg.content}"
+        await asyncio.sleep(0)
+
+        yield f"Deep Research Task Finished..."
+        await asyncio.sleep(0)
 
     async def _acting(self, tool_call: ToolUseBlock) -> Msg | None:
         """

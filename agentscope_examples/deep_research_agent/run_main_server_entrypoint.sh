@@ -61,9 +61,10 @@ system: {
 
 endpoint: https://agentscope.aiagenta2z.com/deep_research_agent/chat
 
-```
+Hint: Use Http1.1 to Support Uvicorn based streaming application for long connection avoid http2 reset
 
-curl -X POST "https://agentscope.aiagenta2z.com/deep_research_agent/chat" \
+```
+curl --http1.1 -X POST "https://agentscope.aiagenta2z.com/deep_research_agent/chat" \
   -H "Content-Type: application/json" \
   -d '{"messages":[{"role":"user","content":"Calculate 1+1 result"}]}'
 

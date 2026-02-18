@@ -205,24 +205,31 @@ async def stream_generator(agent, msg):
     ## result is a message class Msg
     ## Convert to Message Generator
     output_message_id = str(uuid.uuid4())
+
+    CHUNK_SIZE = 4096
     async for reply_content in agent.reply_generator(msg):
-        content_type_chunk = json.dumps(
-            assembly_message(message_type, output_format, reply_content, content_type=content_type, section=section,
-                             message_id=output_message_id, template=TEMPLATE_STREAMING_CONTENT_TYPE))
+        # Ensure reply_content is a string
+        if not isinstance(reply_content, str):
+            reply_content = str(reply_content)
 
-        print(f"stream_generator response Result: {reply_content}")
-        yield content_type_chunk + streaming_separator
+        # Stream in smaller chunks
+        for i in range(0, len(reply_content), CHUNK_SIZE):
+            chunk = reply_content[i:i + CHUNK_SIZE]
 
-    # response_msg = await agent.reply(msg)
-    # print (f"Agent Reply: response {response_msg}")
-    # response_content = response_msg.content
-    # print (f"Agent Reply: response response_content {response_content}")
-    #
-    # output_message_id = response_msg.id
-    # content_type_chunk = json.dumps(assembly_message(message_type, output_format, response_content, content_type=content_type, section=section, message_id=output_message_id, template=TEMPLATE_STREAMING_CONTENT_TYPE) )
-    #
-    # print (f"stream_generator response Result: {response_msg}")
-    # yield content_type_chunk + streaming_separator
+            content_type_chunk = json.dumps(
+                assembly_message(
+                    message_type,
+                    output_format,
+                    chunk,  # <-- use the smaller chunk here
+                    content_type=content_type,
+                    section=section,
+                    message_id=output_message_id,
+                    template=TEMPLATE_STREAMING_CONTENT_TYPE
+                )
+            )
+            print(f"stream_generator response Result chunk: {chunk[:50]}...")  # show only first 50 chars
+            yield content_type_chunk + streaming_separator
+            await asyncio.sleep(0)  # allow event loop to flush
 
 def assembly_message(type, format, content, **kwargs):
     """
