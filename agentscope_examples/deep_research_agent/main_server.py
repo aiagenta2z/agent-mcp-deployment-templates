@@ -200,18 +200,29 @@ async def stream_generator(agent, msg):
     ## Initial Chunk
     initial_chunk = json.dumps(assembly_message(message_type, output_format, "DeepResearch Task Starting...", content_type=content_type, section=section, message_id= str(uuid.uuid4()), template=TEMPLATE_STREAMING_CONTENT_TYPE) )
     yield initial_chunk + streaming_separator
+    await asyncio.sleep(0)
 
     ## result is a message class Msg
-    response_msg = await agent.reply(msg)
-    print (f"Agent Reply: response {response_msg}")
-    response_content = response_msg.content
-    print (f"Agent Reply: response response_content {response_content}")
+    ## Convert to Message Generator
+    output_message_id = str(uuid.uuid4())
+    async for reply_content in agent.reply_generator(msg):
+        content_type_chunk = json.dumps(
+            assembly_message(message_type, output_format, reply_content, content_type=content_type, section=section,
+                             message_id=output_message_id, template=TEMPLATE_STREAMING_CONTENT_TYPE))
 
-    output_message_id = response_msg.id
-    content_type_chunk = json.dumps(assembly_message(message_type, output_format, response_content, content_type=content_type, section=section, message_id=output_message_id, template=TEMPLATE_STREAMING_CONTENT_TYPE) )
+        print(f"stream_generator response Result: {reply_content}")
+        yield content_type_chunk + streaming_separator
 
-    print (f"stream_generator response Result: {response_msg}")
-    yield content_type_chunk + streaming_separator
+    # response_msg = await agent.reply(msg)
+    # print (f"Agent Reply: response {response_msg}")
+    # response_content = response_msg.content
+    # print (f"Agent Reply: response response_content {response_content}")
+    #
+    # output_message_id = response_msg.id
+    # content_type_chunk = json.dumps(assembly_message(message_type, output_format, response_content, content_type=content_type, section=section, message_id=output_message_id, template=TEMPLATE_STREAMING_CONTENT_TYPE) )
+    #
+    # print (f"stream_generator response Result: {response_msg}")
+    # yield content_type_chunk + streaming_separator
 
 def assembly_message(type, format, content, **kwargs):
     """

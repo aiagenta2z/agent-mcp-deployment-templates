@@ -6,4 +6,6 @@ __pycache__/
 .venv
 *.venv
 tests
+langchain_deepagents/content-builder-agent/blogs 
+agentscope_examples/deep_research_agent/deepresearch_agent_demo_env/
 

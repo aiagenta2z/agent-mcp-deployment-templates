@@ -41,7 +41,9 @@ from agentscope.message import (
     TextBlock,
     ToolResultBlock,
 )
-
+from typing import AsyncGenerator, Type
+from copy import deepcopy
+import asyncio
 
 _DEEP_RESEARCH_AGENT_DEFAULT_SYS_PROMPT = "You're a helpful assistant."
 
@@ -275,6 +277,94 @@ class DeepResearchAgent(ReActAgent):
 
         # When the maximum iterations are reached, summarize all the findings
         return await self._summarizing()
+
+    async def reply_generator(
+            self,
+            msg: Msg | list[Msg] | None = None,
+            structured_model: Type[BaseModel] | None = None,
+    ) -> AsyncGenerator[str, None]:
+        """Async generator version of reply, yielding text strings."""
+
+        # Maintain the subtask list
+        self.user_query = msg.get_text_content()
+        self.current_subtask.append(
+            SubTaskItem(objective=self.user_query),
+        )
+
+        # Identify the expected output and generate a plan
+        await self.decompose_and_expand_subtask()
+        msg.content += f"\nExpected Output:\n{self.current_subtask[0].knowledge_gaps}"
+
+        # Yield the expected output immediately
+        yield msg.content
+        await asyncio.sleep(0)
+
+        # Add user query message to memory
+        await self.memory.add(msg)  # type: ignore
+
+        # Record structured output model if provided
+        if structured_model:
+            self._required_structured_model = structured_model
+            self.toolkit.set_extended_model(
+                self.finish_function_name,
+                structured_model,
+            )
+
+        for i in range(self.max_iters):
+
+            yield f"Deep Research Iteration {i} starts..."
+            await asyncio.sleep(0)
+
+            # Generate the working plan first
+            if not self.current_subtask[-1].working_plan:
+                await self.decompose_and_expand_subtask()
+
+            cur_subtask = self.current_subtask[-1]
+            cur_plan = cur_subtask.working_plan
+            cur_know_gap = cur_subtask.knowledge_gaps
+
+            reasoning_prompt = self.prompt_dict["reasoning_prompt"].format_map(
+                {
+                    "objective": cur_subtask.objective,
+                    "plan": cur_plan if cur_plan else "There is no working plan now.",
+                    "knowledge_gap": f"## Knowledge Gaps:\n {cur_know_gap}" if cur_know_gap else "",
+                    "depth": len(self.current_subtask),
+                }
+            )
+
+            reasoning_prompt_msg = Msg(
+                "user",
+                content=[TextBlock(type="text", text=reasoning_prompt)],
+                role="user",
+            )
+            self.intermediate_memory.append(reasoning_prompt_msg)
+
+            # Reasoning to generate tool calls
+            backup_memory = deepcopy(self.memory)  # type: ignore
+            await self.memory.add(self.intermediate_memory)  # type: ignore
+            msg_reasoning = await self._reasoning()
+            self.memory = backup_memory
+
+            # Calling the tools
+            for tool_call in msg_reasoning.get_content_blocks("tool_use"):
+                self.intermediate_memory.append(
+                    Msg(self.name, content=[tool_call], role="assistant")
+                )
+                ##
+                yield f"Deep Research Calling Tool {tool_call}..."
+                await asyncio.sleep(0)
+                msg_response = await self._acting(tool_call)
+                yield f"Deep Research Calling Tool Result..."
+                yield f"{msg_response.content}"
+                await asyncio.sleep(0)
+
+                if msg_response:
+                    await self.memory.add(msg_response)
+                    self.current_subtask = []
+
+        # When max iterations reached, summarize all the findings
+        summary_msg = await self._summarizing()
+        yield summary_msg.content
 
     async def _acting(self, tool_call: ToolUseBlock) -> Msg | None:
         """
@@ -946,7 +1036,16 @@ class DeepResearchAgent(ReActAgent):
     async def _summarizing(self) -> Msg:
         """Generate a report based on the exsisting findings when the
         agent fails to solve the problem in the maximum iterations."""
-
+        if len(self.current_subtask) == 0:
+            return Msg(
+                name=self.name,
+                role="assistant",
+                content=json.dumps(
+                    "",
+                    indent=2,
+                    ensure_ascii=False,
+                ),
+            )
         (
             summarized_content,
             _
