@@ -32,8 +32,9 @@ And `main_server.py` is the example we convert the agent to a FastAPI based appl
 - Deploy Region: Global
 - Entry Point (Startup Scripts)
 ```
-uvicorn agentscope.deep_research_agent.main_server:app
+uvicorn agentscope_examples.deep_research_agent.main_server:app
 ```
+
 Note that the requirements.txt contains the python package required for deployment.
 We put below in the requirements.txt. And fastapi and more packages are already build in the runtime so you don't need to install again every time.
 ```

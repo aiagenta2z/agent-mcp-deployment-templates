@@ -354,11 +354,11 @@ class DeepResearchAgent(ReActAgent):
                 yield f"Deep Research Calling Tool {tool_call}..."
                 await asyncio.sleep(0)
                 msg_response = await self._acting(tool_call)
-                yield f"Deep Research Calling Tool Result..."
-                yield f"{msg_response.content}"
-                await asyncio.sleep(0)
-
                 if msg_response:
+                    yield f"Deep Research Calling Tool Result..."
+                    yield f"{msg_response.content}"
+                    await asyncio.sleep(0)
+
                     await self.memory.add(msg_response)
                     self.current_subtask = []
 
