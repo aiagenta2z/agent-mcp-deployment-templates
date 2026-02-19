@@ -286,7 +286,7 @@ class DeepResearchAgent(ReActAgent):
     ) -> AsyncGenerator[str, None]:
         """Async generator version of reply, yielding text strings."""
 
-        HEARTBEAT_EMPTY_CHUNK_CONTENT = ""
+        heartbeat_chunk_content = ""
 
         # Maintain the subtask list
         self.user_query = msg.get_text_content()
@@ -373,16 +373,20 @@ class DeepResearchAgent(ReActAgent):
         summary_task = asyncio.create_task(self._summarizing())
         while not summary_task.done():
             ## This Acts like a heart beat
-            yield HEARTBEAT_EMPTY_CHUNK_CONTENT    # minimal chunk to keep connection alive, output,
+            yield heartbeat_chunk_content    # minimal chunk to keep connection alive, output,
             await asyncio.sleep(heartbeat_interval)
 
         summary_msg = await summary_task
         yield f"#### Summary \n"
         summary_content = ""
-        if isinstance(summary_msg.content, list) and len(summary_msg.content) > 0:
-            summary_content = summary_msg.content[0]["text"]
-        else:
-            summary_content = ""
+        if isinstance(summary_msg.content, str) and summary_msg.content.strip():
+            try:
+                content_obj = json.loads(summary_msg.content)
+                if isinstance(content_obj, dict) and "text" in content_obj:
+                    summary_content = content_obj["text"]
+            except json.JSONDecodeError:
+                summary_content = summary_msg.content  # fallback to raw string
+
         yield f"{summary_content}\n"
         await asyncio.sleep(0)
 
@@ -1075,8 +1079,6 @@ class DeepResearchAgent(ReActAgent):
         ) = await self._generate_deepresearch_report(
             checklist=self.current_subtask[0].knowledge_gaps,
         )
-        print (f"DEBUG: summarized_content {summarized_content}")
-
         return Msg(
             name=self.name,
             role="assistant",

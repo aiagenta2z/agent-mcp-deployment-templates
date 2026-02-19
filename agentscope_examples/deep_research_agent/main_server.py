@@ -173,6 +173,7 @@ class ChatResponse(BaseModel):
     """Response as Dict of result"""
     response: Dict[str, Any] = Field(..., description="")
 
+
 LOG_ENABLE = False
 
 async def stream_generator(agent, msg):
@@ -216,26 +217,40 @@ async def stream_generator(agent, msg):
             # Ensure reply_content is a string
             if not isinstance(reply_content, str):
                 reply_content = str(reply_content)
-
-            # Stream in smaller chunks
-            for i in range(0, len(reply_content), CHUNK_SIZE):
-                chunk = reply_content[i:i + CHUNK_SIZE]
-
-                content_type_chunk = json.dumps(
+            if reply_content == "":
+                heartbeat_chunk = json.dumps(
                     assembly_message(
                         message_type,
                         output_format,
-                        chunk,  # <-- use the smaller chunk here
+                        "",
                         content_type=content_type,
                         section=section,
                         message_id=output_message_id,
                         template=TEMPLATE_STREAMING_CONTENT_TYPE
                     )
                 )
-                if LOG_ENABLE:
-                    print(f"stream_generator response Result chunk: {chunk[:100]}...")  # show only first 50 chars
-                yield content_type_chunk + streaming_separator
-                await asyncio.sleep(0)  # allow event loop to flush
+                yield heartbeat_chunk + streaming_separator
+                await asyncio.sleep(0)
+            else:
+                # Stream in smaller chunks
+                for i in range(0, len(reply_content), CHUNK_SIZE):
+                    chunk = reply_content[i:i + CHUNK_SIZE]
+
+                    content_type_chunk = json.dumps(
+                        assembly_message(
+                            message_type,
+                            output_format,
+                            chunk,  # <-- use the smaller chunk here
+                            content_type=content_type,
+                            section=section,
+                            message_id=output_message_id,
+                            template=TEMPLATE_STREAMING_CONTENT_TYPE
+                        )
+                    )
+                    if LOG_ENABLE:
+                        print(f"stream_generator response Result chunk: {chunk[:100]}...")  # show only first 50 chars
+                    yield content_type_chunk + streaming_separator
+                    await asyncio.sleep(0)  # allow event loop to flush
 
     except Exception as err:
         error_chunk = json.dumps({

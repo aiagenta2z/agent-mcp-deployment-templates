@@ -23,7 +23,7 @@ curl -X POST "http://localhost:8000/chat" \
 
 curl -X POST "http://localhost:8000/chat" \
   -H "Content-Type: application/json" \
-  -d '{"messages":[{"role":"user","content":"Calculate 1+1 result"}]}'
+  -d '{"messages":[{"role":"user","content":"Research when 1+1=3?"}]}'
 
 
 Returned Streaming Chunks
