@@ -190,46 +190,66 @@ async def stream_generator(agent, msg):
     TEMPLATE_REASONING_HTML = "reason_html"
     TEMPLATE_STREAMING_CONTENT_TYPE = "streaming_content_type"
     """
-    message_type = "assistant"
-    output_format = "text"
-    content_type = "text/markdown"
-    section = "answer"
     streaming_separator = "\n"
-    TEMPLATE_STREAMING_CONTENT_TYPE = "streaming_content_type"
+    try:
+        message_type = "assistant"
+        output_format = "text"
+        content_type = "text/markdown"
+        section = "answer"
+        TEMPLATE_STREAMING_CONTENT_TYPE = "streaming_content_type"
 
-    ## Initial Chunk
-    initial_chunk = json.dumps(assembly_message(message_type, output_format, "DeepResearch Task Starting...", content_type=content_type, section=section, message_id= str(uuid.uuid4()), template=TEMPLATE_STREAMING_CONTENT_TYPE) )
-    yield initial_chunk + streaming_separator
-    await asyncio.sleep(0)
+        ## Initial Chunk
+        initial_chunk = json.dumps(
+            assembly_message(message_type, output_format, "DeepResearch Task Starting...", content_type=content_type,
+                             section=section, message_id=str(uuid.uuid4()), template=TEMPLATE_STREAMING_CONTENT_TYPE))
+        yield initial_chunk + streaming_separator
+        await asyncio.sleep(0)
 
-    ## result is a message class Msg
-    ## Convert to Message Generator
-    output_message_id = str(uuid.uuid4())
+        ## result is a message class Msg
+        ## Convert to Message Generator
+        output_message_id = str(uuid.uuid4())
 
-    CHUNK_SIZE = 4096
-    async for reply_content in agent.reply_generator(msg):
-        # Ensure reply_content is a string
-        if not isinstance(reply_content, str):
-            reply_content = str(reply_content)
+        CHUNK_SIZE = 4096
+        async for reply_content in agent.reply_generator(msg):
+            # Ensure reply_content is a string
+            if not isinstance(reply_content, str):
+                reply_content = str(reply_content)
 
-        # Stream in smaller chunks
-        for i in range(0, len(reply_content), CHUNK_SIZE):
-            chunk = reply_content[i:i + CHUNK_SIZE]
+            # Stream in smaller chunks
+            for i in range(0, len(reply_content), CHUNK_SIZE):
+                chunk = reply_content[i:i + CHUNK_SIZE]
 
-            content_type_chunk = json.dumps(
-                assembly_message(
-                    message_type,
-                    output_format,
-                    chunk,  # <-- use the smaller chunk here
-                    content_type=content_type,
-                    section=section,
-                    message_id=output_message_id,
-                    template=TEMPLATE_STREAMING_CONTENT_TYPE
+                content_type_chunk = json.dumps(
+                    assembly_message(
+                        message_type,
+                        output_format,
+                        chunk,  # <-- use the smaller chunk here
+                        content_type=content_type,
+                        section=section,
+                        message_id=output_message_id,
+                        template=TEMPLATE_STREAMING_CONTENT_TYPE
+                    )
                 )
-            )
-            print(f"stream_generator response Result chunk: {chunk[:50]}...")  # show only first 50 chars
-            yield content_type_chunk + streaming_separator
-            await asyncio.sleep(0)  # allow event loop to flush
+                print(f"stream_generator response Result chunk: {chunk[:50]}...")  # show only first 50 chars
+                yield content_type_chunk + streaming_separator
+                await asyncio.sleep(0)  # allow event loop to flush
+
+    except Exception as err:
+        error_chunk = json.dumps({
+            "type": "assistant",
+            "role": "assistant",
+            "content": "Internal Server Error",
+        })
+        print (f"Failed to process Chat Message Assemble AgentScope Response: {err}")
+        yield error_chunk + streaming_separator
+    finally:
+        done_chunk = json.dumps({
+            "type": "assistant",
+            "role": "assistant",
+            "content": "",
+            "done": True
+        })
+        yield done_chunk + streaming_separator
 
 def assembly_message(type, format, content, **kwargs):
     """
@@ -291,7 +311,7 @@ async def chat(request: ChatRequest) -> StreamingResponse:
 
         return StreamingResponse(
             stream_generator(agent, msg),
-            media_type="application/json",
+            media_type="text/event-stream",
         )
 
     except Exception as e:
