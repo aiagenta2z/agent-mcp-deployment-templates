@@ -230,7 +230,7 @@ async def stream_generator(agent, msg):
                         template=TEMPLATE_STREAMING_CONTENT_TYPE
                     )
                 )
-                print(f"stream_generator response Result chunk: {chunk[:50]}...")  # show only first 50 chars
+                print(f"stream_generator response Result chunk: {chunk[:100]}...")  # show only first 50 chars
                 yield content_type_chunk + streaming_separator
                 await asyncio.sleep(0)  # allow event loop to flush
 

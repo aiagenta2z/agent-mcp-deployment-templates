@@ -282,6 +282,7 @@ class DeepResearchAgent(ReActAgent):
             self,
             msg: Msg | list[Msg] | None = None,
             structured_model: Type[BaseModel] | None = None,
+            heartbeat_interval: float = 10.0
     ) -> AsyncGenerator[str, None]:
         """Async generator version of reply, yielding text strings."""
 
@@ -293,7 +294,7 @@ class DeepResearchAgent(ReActAgent):
 
         # Identify the expected output and generate a plan
         await self.decompose_and_expand_subtask()
-        msg.content += f"\nExpected Output:\n{self.current_subtask[0].knowledge_gaps}"
+        msg.content += f"### \nExpected Output:\n{self.current_subtask[0].knowledge_gaps}"
 
         # Yield the expected output immediately
         yield msg.content
@@ -312,7 +313,7 @@ class DeepResearchAgent(ReActAgent):
 
         for i in range(self.max_iters):
 
-            yield f"Deep Research Iteration {i} starts..."
+            yield f"### Deep Research Iteration {i} starts...\n"
             await asyncio.sleep(0)
 
             # Generate the working plan first
@@ -351,24 +352,31 @@ class DeepResearchAgent(ReActAgent):
                     Msg(self.name, content=[tool_call], role="assistant")
                 )
                 ##
-                yield f"Deep Research Calling Tool {tool_call}"
+                yield f"### Deep Research Calling Tool {tool_call}\n"
                 await asyncio.sleep(0)
                 msg_response = await self._acting(tool_call)
                 if msg_response:
-                    yield f"Deep Research Calling Tool Result..."
+                    yield f"### Deep Research Calling Tool Result...\n"
                     msg_response_text = msg_response.content
-                    yield f"Tool Call Content {msg_response_text}"
+                    yield f"### Tool Call Content {msg_response_text}"
                     await asyncio.sleep(0)
 
                     await self.memory.add(msg_response)
                     self.current_subtask = []
 
         # When max iterations reached, summarize all the findings
-        summary_msg = await self._summarizing()
-        yield f"Summary \n {summary_msg.content}"
+        # --- Heartbeat loop while summarization is running ---
+        summary_task = asyncio.create_task(self._summarizing())
+        while not summary_task.done():
+            ## This Acts like a heart beat
+            yield "agent still running...\n"    # minimal chunk to keep connection alive, output,
+            await asyncio.sleep(heartbeat_interval)
+
+        summary_msg = await summary_task
+        yield f"### Summary \n {summary_msg.content} \n"
         await asyncio.sleep(0)
 
-        yield f"Deep Research Task Finished..."
+        yield f"### Deep Research Task Finished...\n"
         await asyncio.sleep(0)
 
     async def _acting(self, tool_call: ToolUseBlock) -> Msg | None:
