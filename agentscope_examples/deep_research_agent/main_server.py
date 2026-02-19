@@ -173,6 +173,8 @@ class ChatResponse(BaseModel):
     """Response as Dict of result"""
     response: Dict[str, Any] = Field(..., description="")
 
+LOG_ENABLE = False
+
 async def stream_generator(agent, msg):
     """
     Generator for Chat Messages Assemble AgentScope Response
@@ -200,7 +202,7 @@ async def stream_generator(agent, msg):
 
         ## Initial Chunk
         initial_chunk = json.dumps(
-            assembly_message(message_type, output_format, "DeepResearch Task Starting...", content_type=content_type,
+            assembly_message(message_type, output_format, "#### DeepResearch Task Starting...\n", content_type=content_type,
                              section=section, message_id=str(uuid.uuid4()), template=TEMPLATE_STREAMING_CONTENT_TYPE))
         yield initial_chunk + streaming_separator
         await asyncio.sleep(0)
@@ -230,7 +232,8 @@ async def stream_generator(agent, msg):
                         template=TEMPLATE_STREAMING_CONTENT_TYPE
                     )
                 )
-                print(f"stream_generator response Result chunk: {chunk[:100]}...")  # show only first 50 chars
+                if LOG_ENABLE:
+                    print(f"stream_generator response Result chunk: {chunk[:100]}...")  # show only first 50 chars
                 yield content_type_chunk + streaming_separator
                 await asyncio.sleep(0)  # allow event loop to flush
 

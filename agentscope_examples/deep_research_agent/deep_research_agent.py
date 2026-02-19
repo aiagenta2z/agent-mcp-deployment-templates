@@ -286,6 +286,8 @@ class DeepResearchAgent(ReActAgent):
     ) -> AsyncGenerator[str, None]:
         """Async generator version of reply, yielding text strings."""
 
+        HEARTBEAT_EMPTY_CHUNK_CONTENT = ""
+
         # Maintain the subtask list
         self.user_query = msg.get_text_content()
         self.current_subtask.append(
@@ -294,10 +296,10 @@ class DeepResearchAgent(ReActAgent):
 
         # Identify the expected output and generate a plan
         await self.decompose_and_expand_subtask()
-        msg.content += f"### \nExpected Output:\n{self.current_subtask[0].knowledge_gaps}"
+        research_content = f"User Ask: {msg.content}" + "\n" + f"### Tasks: \n {self.current_subtask[0].knowledge_gaps}\n"
 
         # Yield the expected output immediately
-        yield msg.content
+        yield research_content
         await asyncio.sleep(0)
 
         # Add user query message to memory
@@ -313,7 +315,7 @@ class DeepResearchAgent(ReActAgent):
 
         for i in range(self.max_iters):
 
-            yield f"### Deep Research Iteration {i} starts...\n"
+            yield f"#### Deep Research Iteration {i} starts...\n"
             await asyncio.sleep(0)
 
             # Generate the working plan first
@@ -352,13 +354,15 @@ class DeepResearchAgent(ReActAgent):
                     Msg(self.name, content=[tool_call], role="assistant")
                 )
                 ##
-                yield f"### Deep Research Calling Tool {tool_call}\n"
+                yield f"#### Deep Research Calling Tool\n"
+                yield f"{tool_call}\n"
                 await asyncio.sleep(0)
                 msg_response = await self._acting(tool_call)
                 if msg_response:
-                    yield f"### Deep Research Calling Tool Result...\n"
+                    yield f"#### Deep Research Calling Tool Result...\n"
                     msg_response_text = msg_response.content
-                    yield f"### Tool Call Content {msg_response_text}"
+                    yield f"#### Tool Call Content\n"
+                    yield f"{msg_response_text}\n"
                     await asyncio.sleep(0)
 
                     await self.memory.add(msg_response)
@@ -369,14 +373,20 @@ class DeepResearchAgent(ReActAgent):
         summary_task = asyncio.create_task(self._summarizing())
         while not summary_task.done():
             ## This Acts like a heart beat
-            yield "agent still running...\n"    # minimal chunk to keep connection alive, output,
+            yield HEARTBEAT_EMPTY_CHUNK_CONTENT    # minimal chunk to keep connection alive, output,
             await asyncio.sleep(heartbeat_interval)
 
         summary_msg = await summary_task
-        yield f"### Summary \n {summary_msg.content} \n"
+        yield f"#### Summary \n"
+        summary_content = ""
+        if isinstance(summary_msg.content, list) and len(summary_msg.content) > 0:
+            summary_content = summary_msg.content[0]["text"]
+        else:
+            summary_content = ""
+        yield f"{summary_content}\n"
         await asyncio.sleep(0)
 
-        yield f"### Deep Research Task Finished...\n"
+        yield f"#### Deep Research Task Finished...\n"
         await asyncio.sleep(0)
 
     async def _acting(self, tool_call: ToolUseBlock) -> Msg | None:
