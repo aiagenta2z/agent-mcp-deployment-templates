@@ -315,7 +315,7 @@ class DeepResearchAgent(ReActAgent):
 
         for i in range(self.max_iters):
 
-            yield f"#### Deep Research Iteration {i} starts...\n"
+            yield f"#### Deep Research Iteration {i} starts\n"
             await asyncio.sleep(0)
 
             # Generate the working plan first
@@ -354,22 +354,28 @@ class DeepResearchAgent(ReActAgent):
                     Msg(self.name, content=[tool_call], role="assistant")
                 )
                 ##
-                yield f"#### Deep Research Calling Tool\n"
-                yield f"{tool_call}\n"
+                tool_name = tool_call["name"]
+                tool_input = tool_call["input"]
+                tool_call_msg = f"Deep Research Calling Tool {tool_name}\n"
+                yield tool_call_msg
+                # yield f"{tool_call}\n"
                 await asyncio.sleep(0)
                 msg_response = await self._acting(tool_call)
                 if msg_response:
-                    yield f"#### Deep Research Calling Tool Result...\n"
+                    yield f"#### Deep Research Calling Tool Result\n"
                     msg_response_text = msg_response.content
                     yield f"#### Tool Call Content\n"
                     yield f"{msg_response_text}\n"
                     await asyncio.sleep(0)
-
                     await self.memory.add(msg_response)
                     self.current_subtask = []
 
         # When max iterations reached, summarize all the findings
         # --- Heartbeat loop while summarization is running ---
+        summarization_start_message = "Start to summarize and the it will take a few minutes. Please wait a while and comeback to check results"
+        yield summarization_start_message
+        await asyncio.sleep(0)
+
         summary_task = asyncio.create_task(self._summarizing())
         while not summary_task.done():
             ## This Acts like a heart beat

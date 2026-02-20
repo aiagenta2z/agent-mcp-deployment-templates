@@ -203,7 +203,7 @@ async def stream_generator(agent, msg):
 
         ## Initial Chunk
         initial_chunk = json.dumps(
-            assembly_message(message_type, output_format, "#### DeepResearch Task Starting...\n", content_type=content_type,
+            assembly_message(message_type, output_format, "#### DeepResearch Task Starting\n", content_type=content_type,
                              section=section, message_id=str(uuid.uuid4()), template=TEMPLATE_STREAMING_CONTENT_TYPE))
         yield initial_chunk + streaming_separator
         await asyncio.sleep(0)
