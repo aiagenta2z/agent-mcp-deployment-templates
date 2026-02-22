@@ -2,6 +2,8 @@
 
 [Agent Router Web](https://agent.deepnlp.org) | [OneKey MCP Router](https://deepnlp.org/agent/onekey-mcp-router) | [Agent MCP Rankings](https://deepnlp.org/agent/rankings) 
 
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/agent_router_example.png" style="width: 800px" alt="Agent Router 2">
+
 ### Introduction
 
 You can launch your AI Agent and enable real user traffic via the [Agent Router Web UI](https://agent.deepnlp.org/) and many other MCP/Agent clients.
@@ -25,7 +27,10 @@ The Agent Router works with both third-party AI Agents (endpoints that accept th
 Step 1. Visit  [AI Service Tab](https://deepnlp.org/workspace/my_ai_services).
 In the section "Content You Added", find the AI service project you want to use, go to the detailed page.
 
-Step 2. Edit Your AI Service PRoject
+Step 2. Edit Your AI Service Project
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/agent_router_edit_ai_service.png" style="width: 800px" alt="Add AI Service">
+
 In the admin panel, click `Edit`, Find the filed "API Endpoint", add the API of the endpoint that accept POST request with `messages` format input and streaming returned.
 Here we put https://agentscope.aiagenta2z.com/deep_research_agent/chat in the `API Endpoint` field and then submit.
 
@@ -63,7 +68,11 @@ https://agent.deepnlp.org/?agent={unique_id}
 For the deep research agent, we visit `https://agent.deepnlp.org/?agent=agentscope/deep_research_agent`
 and you can ask the Agent with your Question, e.g. 
 
-prompt: research when is 1+1=3?
+**prompt**
+
+research when is 1+1=3?
+
+**Rendered Results**
 
 <img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/agent_router_deep_research_1.png" style="width: 800px" alt="Agent Router 1">
 
