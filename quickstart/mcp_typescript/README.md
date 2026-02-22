@@ -5,28 +5,37 @@
 
 ### Introduction
 
-This server implement two tools `add` `greeting` in a mcp.streamable_http_app() at "/mcp" endpoint
+This server implement one tool `greeting` and one resource `index` (html in assets folder) in a mcp.streamable_http_app() at "/mcp" endpoint
 
 ### Locally
 ```commandline
-cd quickstart/mcp_python
-uvicorn server:app
+pnpm install
+pnpm build
+pnpm start
 ```
 
 ### Test Local MCP Connection
 http://127.0.0.1:8000/mcp
 
-### Deployment
+### Test Static Resource Serving
 
-<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_python_1.png" style="height:400px;" alt="Quick start python 1">
+http://127.0.0.1:8000/assets/index.html
+
+Rendered content: Typescript MCP Example
+And you can see the static file in on /assets/* folder and served
+
+### Deployment
 
 1. Create AI Service at [AI Service Project](https://deepnlp.org/workspace/my_ai_services)
 2. Go to [A2Z Deployment Panel](https://deepnlp.org/workspace/deploy)
 Choose Github Method
-Public URL: https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_python
+Public URL: https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_typescript
 Entry Point Starting Script:
 ```commandline
-uvicorn quickstart.mcp_python.server:app
+cd quickstart/mcp_typescript
+pnpm install
+pnpm build
+pnpm start
 ```
 3. Deploy
 
@@ -34,12 +43,13 @@ Everything will be done in a few minutes and Note that the server starting scrip
 
 Result
 
-<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_python_2.png" style="height:400px;" alt="Quick start python 2">
-
 #### Cursor: Add/Greet User
 
 #### Test Local MCP Connection
-https://quickstart.aiagenta2z.com/mcp_python/mcp
+https://quickstart.aiagenta2z.com/mcp_typescript/mcp
+
+assets
+https://quickstart.aiagenta2z.com/mcp_typescript/assets/index.html
 
 
 ## Result
@@ -49,3 +59,4 @@ Successfuly Logs
 2026-02-22 12:31:39.694 [info] Found 1 tools, 1 prompts, and 0 resources
 2026-02-22 12:31:39.715 [info] Handling GetInstructions action
 ```
+
