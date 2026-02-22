@@ -58,12 +58,12 @@ Cursor: Add/Greet User
     } 
 ```
 
-<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_node_cursor.png" style="height:400px;" alt="Quick start python 1">
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_typescript.png" style="" alt="Quick start python 1">
 
 assets
 https://quickstart.aiagenta2z.com/mcp_typescript/assets/index.html
 
-<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_node_cursor.png" style="height:400px;" alt="Quick start python 1">
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_node_cursor.png" style="" alt="Quick start python 1">
 
 
 If you can see the content: 
