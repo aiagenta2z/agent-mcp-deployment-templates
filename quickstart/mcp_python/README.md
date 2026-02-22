@@ -1,6 +1,8 @@
 
 ## Quickstart Deployment Python MCP Streamable Http Server on AI Agent A2Z
 
+[Website](https://www.deepnlp.org/workspace/deploy) | [GitHub](https://github.com/aiagenta2z/agent_mcp_deployment) | [AI Agent Marketplace](https://www.deepnlp.org/store/ai-agent) | [AI Agent A2Z](https://www.aiagenta2z.com)
+
 ### Introduction
 
 This server implement two tools `add` `greeting` in a mcp.streamable_http_app() at "/mcp" endpoint
@@ -15,6 +17,9 @@ uvicorn server:app
 http://127.0.0.1:8000/mcp
 
 ### Deployment
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_python_1.png" style="height:400px;" alt="Quick start python 1">
+
 1. Create AI Service at [AI Service Project](https://deepnlp.org/workspace/my_ai_services)
 2. Go to [A2Z Deployment Panel](https://deepnlp.org/workspace/deploy)
 Choose Github Method
@@ -26,6 +31,10 @@ uvicorn quickstart.mcp_python.server:app
 3. Deploy
 
 Everything will be done in a few minutes and Note that the server starting script should start from the github root folder as module
+
+Result
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_python_2.png" style="height:400px;" alt="Quick start python 2">
 
 ## Cursor: Add/Greet User
 
