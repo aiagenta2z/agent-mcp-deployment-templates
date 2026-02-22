@@ -26,17 +26,21 @@ And you can see the static file in on /assets/* folder and served
 
 ### Deployment
 
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_typescript.png" style="height:400px;" alt="Quick start python 1">
+
 1. Create AI Service at [AI Service Project](https://deepnlp.org/workspace/my_ai_services)
 2. Go to [A2Z Deployment Panel](https://deepnlp.org/workspace/deploy)
 Choose Github Method
 Public URL: https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_typescript
 Entry Point Starting Script:
 ```commandline
-cd quickstart/mcp_typescript
-pnpm install
-pnpm build
-pnpm start
+pnpm --prefix ./quickstart/mcp_typescript install
+pnpm --prefix ./quickstart/mcp_typescript build
+pnpm --prefix ./quickstart/mcp_typescript start
 ```
+
+Note the command should be run from the root folder of the git project with prefix ./quickstart/mcp_typescript 
+
 3. Deploy
 
 Everything will be done in a few minutes and Note that the server starting script should start from the github root folder as module
@@ -51,9 +55,10 @@ https://quickstart.aiagenta2z.com/mcp_typescript/mcp
 assets
 https://quickstart.aiagenta2z.com/mcp_typescript/assets/index.html
 
+If you can see the content: 
 
 ## Result
-Successfuly Logs
+Successful Logs
 ```commandline
 2026-02-22 12:31:39.694 [info] listResources: Found 0 resources
 2026-02-22 12:31:39.694 [info] Found 1 tools, 1 prompts, and 0 resources
