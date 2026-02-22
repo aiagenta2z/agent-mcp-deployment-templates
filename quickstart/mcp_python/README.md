@@ -34,7 +34,7 @@ Everything will be done in a few minutes and Note that the server starting scrip
 
 Result
 
-<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_python_2.png" style="height:400px;" alt="Quick start python 2">
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_mcp_typescript.png" style="height:400px;" alt="Quick start python 2">
 
 #### Cursor: Add/Greet User
 
