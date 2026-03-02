@@ -7,6 +7,11 @@
 
 This server implement one tool `greeting` and one resource `index` (html in assets folder) in a mcp.streamable_http_app() at "/mcp" endpoint
 
+MCP Version Compatible
+```commandline
+mcp=1.26.0
+```
+
 ### Locally
 ```commandline
 pnpm install

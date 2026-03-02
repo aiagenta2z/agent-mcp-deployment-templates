@@ -20,10 +20,85 @@ const app = express();
 app.use(express.json());
 
 // Create MCP server once
-const server = new McpServer({
-  name: MCP_SERVER_NAME,
-  version: "1.0.0",
-});
+const transports = new Map<string, StreamableHTTPServerTransport>();
+
+// const server = new McpServer({
+//   name: MCP_SERVER_NAME,
+//   version: "1.0.0",
+// });
+
+function createServer() {
+  const server = new McpServer({
+    name: MCP_SERVER_NAME,
+    version: "1.0.0",
+  });
+
+  /* ---------------- Widget ---------------- */
+
+  server.resource(
+    WIDGET_NAME,
+    WIDGET_URI,
+    {
+      description: "A specialized UI widget Index",
+      mimeType: "text/html+skybridge",
+      _meta: widgetMeta,
+    },
+    async (uri: URL) => {
+      return {
+        contents: [
+          {
+            uri: uri.toString(),
+            mimeType: "text/html+skybridge",
+            text: widgetHtml,
+            _meta: widgetMeta,
+          },
+        ],
+      };
+    }
+  );
+
+  /* ---------------- Tool ---------------- */
+
+  server.registerTool(
+    "greet_user",
+    {
+      title: "Greet User",
+      description: "Generate a greeting prompt",
+      inputSchema: {
+        name: z.string().describe("Name of User to Greet"),
+        style: z
+          .enum(["friendly", "formal", "casual"])
+          .default("friendly")
+          .describe("Styles of Greeting"),
+      },
+    },
+    async ({ name, style }) => {
+      const styles: Record<string, string> = {
+        friendly: "Please write a warm, friendly greeting",
+        formal: "Please write a formal, professional greeting",
+        casual: "Please write a casual, relaxed greeting",
+      };
+
+      const prompt = `${styles[style] ?? styles.friendly} for someone named ${name}.`;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: prompt,
+          },
+        ],
+        _meta: {
+          "openai/toolInvocation/invoking": "Greet User Tool",
+          "openai/toolInvocation/invoked": "Prompt generated",
+        },
+      };
+    }
+  );
+
+  return server;
+}
+
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, "..");
@@ -52,73 +127,77 @@ const widgetMeta = {
   "openai/widgetAccessible": true,
 } as const;
 
-// Resource
-server.resource(
-  WIDGET_NAME,          // internal ID
-  WIDGET_URI,                        // resource URI (string)
-  {
-    description: "A specialized UI widget Index",
-    mimeType: "text/html+skybridge",
-    _meta: widgetMeta,
-  },
-  async (uri: URL) => {
-    return {
-      contents: [
-        {
-          uri: uri.toString(),
-          mimeType: "text/html+skybridge",
-          text: widgetHtml,
-          _meta: widgetMeta,
-        },
-      ],
-    };
-  }
-);
+// // Resource
+// server.resource(
+//   WIDGET_NAME,          // internal ID
+//   WIDGET_URI,                        // resource URI (string)
+//   {
+//     description: "A specialized UI widget Index",
+//     mimeType: "text/html+skybridge",
+//     _meta: widgetMeta,
+//   },
+//   async (uri: URL) => {
+//     return {
+//       contents: [
+//         {
+//           uri: uri.toString(),
+//           mimeType: "text/html+skybridge",
+//           text: widgetHtml,
+//           _meta: widgetMeta,
+//         },
+//       ],
+//     };
+//   }
+// );
 
 
-// Define your fortune tool
-server.registerTool(
-  "greet_user",
-  {
-    title: "Greet User",
-    description: "Generate a greeting prompt",
-    inputSchema: {
-      name: z.string().describe("Name of User to Greet"),
-      style: z
-        .enum(["friendly", "formal", "casual"])
-        .default("friendly")
-        .describe("Styles of Greeting"),
-    },
-  },
-  async ({ name, style }) => {
-    const styles: Record<string, string> = {
-      friendly: "Please write a warm, friendly greeting",
-      formal: "Please write a formal, professional greeting",
-      casual: "Please write a casual, relaxed greeting",
-    };
-
-    const prompt = `${styles[style] ?? styles.friendly} for someone named ${name}.`;
-
-    return {
-      content: [
-        {
-          type: "text",
-          text: prompt,
-        },
-      ],
-      _meta: {
-        "openai/toolInvocation/invoking": "Greet User Tool",
-        "openai/toolInvocation/invoked": "Prompt generated",
-      },
-    };
-  }
-);
+// // Define your fortune tool
+// server.registerTool(
+//   "greet_user",
+//   {
+//     title: "Greet User",
+//     description: "Generate a greeting prompt",
+//     inputSchema: {
+//       name: z.string().describe("Name of User to Greet"),
+//       style: z
+//         .enum(["friendly", "formal", "casual"])
+//         .default("friendly")
+//         .describe("Styles of Greeting"),
+//     },
+//   },
+//   async ({ name, style }) => {
+//     const styles: Record<string, string> = {
+//       friendly: "Please write a warm, friendly greeting",
+//       formal: "Please write a formal, professional greeting",
+//       casual: "Please write a casual, relaxed greeting",
+//     };
+//
+//     const prompt = `${styles[style] ?? styles.friendly} for someone named ${name}.`;
+//
+//     return {
+//       content: [
+//         {
+//           type: "text",
+//           text: prompt,
+//         },
+//       ],
+//       _meta: {
+//         "openai/toolInvocation/invoking": "Greet User Tool",
+//         "openai/toolInvocation/invoked": "Prompt generated",
+//       },
+//     };
+//   }
+// );
 
 // Store transports by session ID
-const sessions = new Map<string, StreamableHTTPServerTransport>();
+// const transports = new Map<string, StreamableHTTPServerTransport>();
 
+// Change to MCP 1.26 format
+// Session - MCP - Transport
 app.post("/mcp", async (req: Request, res: Response) => {
-  const sessionIdHeader = req.headers["mcp-session-id"] as string | undefined;
+  // const sessionIdHeader = req.headers["mcp-session-id"] as string | undefined;
+  const sessionId = req.headers["mcp-session-id"] as string | undefined;
+
   let transport: StreamableHTTPServerTransport;
 
   // --- LOG HEADERS HERE ---
@@ -135,31 +214,35 @@ app.post("/mcp", async (req: Request, res: Response) => {
       }
   }
 
-  if (sessionIdHeader && sessions.has(sessionIdHeader)) {
-    // reuse
-    transport = sessions.get(sessionIdHeader)!;
-  } else if (!sessionIdHeader && isInitializeRequest(req.body)) {
-    // new session
+  if (sessionId && transports.has(sessionId)) {
+    transport = transports.get(sessionId)!;
+  } else if (!sessionId && isInitializeRequest(req.body)) {
     transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: () => randomUUID(),
-      onsessioninitialized: (id) => {
-        sessions.set(id, transport);
+    });
+
+    transport = new StreamableHTTPServerTransport({
+      sessionIdGenerator: () => randomUUID(),
+      onsessioninitialized: (sid: string) => {
+        transports.set(sid, transport);
       }
     });
 
-    // connect MCP
+    //  Create fresh server per session
+    const server = createServer();
     await server.connect(transport);
+
   } else {
-    // bad
     return res.status(400).json({ error: "Invalid session" });
   }
 
-  // handle this MCP POST
   await transport.handleRequest(req, res, req.body);
+
 });
 
 app.get("/mcp", async (req: Request, res: Response) => {
-  const sessionIdHeader = req.headers["mcp-session-id"] as string | undefined;
+  const sessionIdGet = req.headers["mcp-session-id"] as string | undefined;
+
   // --- LOG HEADERS HERE ---
   if (DEBUG_ENABLE) {
       const reqId = randomUUID();
@@ -174,10 +257,11 @@ app.get("/mcp", async (req: Request, res: Response) => {
       }
   }
 
-  if (!sessionIdHeader || !sessions.has(sessionIdHeader)) {
+  if (!sessionIdGet || !transports.has(sessionIdGet)) {
     return res.status(400).json({ error: "Missing session" });
   }
-  const transport = sessions.get(sessionIdHeader)!;
+
+  const transport = transports.get(sessionIdGet)!;
   await transport.handleRequest(req, res);
 });
 
