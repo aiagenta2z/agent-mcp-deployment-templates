@@ -7,7 +7,8 @@
 
 This server implement one tool `greeting` and one resource `index` (html in assets folder) in a mcp.streamable_http_app() at "/mcp" endpoint
 
-MCP Version Compatible
+MCP Version Compatible, Change to MCP Server -> Session -> Transport mapping.
+
 ```commandline
 mcp=1.26.0
 ```

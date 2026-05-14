@@ -1,0 +1,14 @@
+{
+  "name": "website-typescript-static-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "tsx typescript/server.ts",
+    "dev": "tsx watch typescript/server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

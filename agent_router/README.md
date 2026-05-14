@@ -44,7 +44,7 @@ The input routed format:
 ```
 
 
-To make sure your endpoint accespt the messages input, you can test the endpoint using curl 
+To make sure your endpoint accept the messages input, you can test the endpoint using curl 
 
 ```
 curl -X POST "https://agentscope.aiagenta2z.com/deep_research_agent/chat" \

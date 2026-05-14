@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craftsman Agent | Turn Ideas into Reality | Lego Minecraft 3D Assembly Instructions | Deployed AI Agent A2Z</title>
+    <meta name="description" content="Craftsman Agent is an AI Agent that transforms your text prompts into 3D build instructions— from LEGO sets and Minecraft worlds to figurines and modular designs. Get detailed, step-by-step assembly charts and bring your ideas to life, faster and smarter than ever.">
+    <meta name="keywords" content="Craftsman,AI Agent,3D,Lego,Minecraft">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent: #f59e0b;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 10px;
+        }
+
+        .icon_website_header {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .logo-text .coach { color: var(--dark); }
+        .logo-text .owl { color: var(--primary); }
+
+        .nav-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-right a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-right a:hover { color: var(--primary); }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 5% 60px;
+            text-align: center;
+            background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        /* Sections */
+        .section {
+            padding: 80px 5%;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+            border-left: 5px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        .section-header h2 { font-size: 2rem; margin-bottom: 10px; }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: scale(1.02); }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card-info { padding: 15px; }
+        .card-info p { font-size: 0.85rem; color: var(--gray); font-style: italic; }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 80%;
+            max-height: 70%;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .step-thumbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+            width: 80%;
+            padding: 10px;
+        }
+
+        .step-thumbs img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .step-thumbs img.active { border-color: var(--primary); }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: white; font-size: 2rem; cursor: pointer;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+        }
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-right { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="#" class="logo-container">
+                <img src="/static/website/agent_icon.jpg" class="icon_website_header" onerror="this.src='https://via.placeholder.com/40'">
+                <div class="logo-text">
+                    <span class="coach">Craftsman</span><span class="owl">Agent</span>
+                </div>
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="https://www.deepnlp.org/doc/onekey_gateway" target="_blank">Docs</a>
+            <a href="https://www.deepnlp.org/pricing" target="_blank">Credit</a>
+            <a href="https://www.deepnlp.org/account/login" target="_blank">Login</a>
+            <a href="https://www.deepnlp.org/workspace/keys" target="_blank">API Keys</a>
+            <a href="#">Home</a>
+            <a href="https://agent.deepnlp.org/agent/craftsman-agent/craftsman-agent" target="_blank">Open Craftsman Agent</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Craftsman Agents Turn Creative Ideas Into Reality</h1>
+        <p>AI Agent that helps turn image and text into 3D builds, assembly plans, videos, tutorials and more. Design Lego assembly plans, Minecraft brick building tutorials, and Tesla Car Wraps instantly.</p>
+        <a target="_blank" href="https://agent.deepnlp.org/agent/craftsman-agent/craftsman-agent" class="cta-button">Start Building Now</a>
+    </header>
+
+    <!-- Page 2: Lego -->
+    <section class="section" id="lego">
+        <div class="section-header">
+            <h2>3D Lego Build Plan Assembly Instructions</h2>
+            <p>Turn Prompt into 3D Lego Assembly Step-by-Step instructions. Ready to download 3D model files (.obj and more).</p>
+        </div>
+        <div class="gallery-grid">
+            <!-- Item 1 -->
+            <div class="card" onclick="openLightbox('lego', 0)">
+                <img src="/static/website/yacht_demo_clean/view_iso.png" onerror="this.src='https://via.placeholder.com/400x300?text=Lego+Yacht+ISO'">
+                <div class="card-info">
+                    <p>"I want to build 5 decks Lego Yacht Blue and White Color"</p>
+                </div>
+            </div>
+            <!-- Placeholders for grid completeness -->
+            <div class="card"><img src="/static/website/yacht_demo_clean/view_front.png" onerror="this.src='https://via.placeholder.com/400x300?text=Lego+Example+5'"></div>
+            <div class="card"><img src="/static/website/yacht_demo_clean/view_side.png" onerror="this.src='https://via.placeholder.com/400x300?text=Lego+Example+6'"></div>
+            <div class="card"><img src="/static/website/yacht_demo_clean/lego_plan_blue_white_yacht_1.jpg" onerror="this.src='https://via.placeholder.com/400x300?text=Lego+Example+2'"></div>
+            <div class="card"><img src="/static/website/yacht_demo_clean/lego_plan_blue_white_yacht_2.jpg" onerror="this.src='https://via.placeholder.com/400x300?text=Lego+Example+3'"></div>
+            <div class="card"><img src="/static/website/yacht_demo_clean/lego_plan_blue_white_yacht_3.jpg" onerror="this.src='https://via.placeholder.com/400x300?text=Lego+Example+4'"></div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
+        <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
+
+        <div class="lightbox-content">
+            <img id="main-lightbox-img" src="">
+            <p id="lightbox-caption" style="color:white; margin-top:15px; text-align:center;"></p>
+        </div>
+
+        <div class="step-thumbs" id="thumb-container"></div>
+    </div>
+
+    <footer>
+        <h3>Craftsman Agent</h3>
+        <p style="max-width:700px; margin: 20px auto; color: #cbd5e1;">
+            We’re building this for hobbyists, parents, and creators. Go from idea to build guide in minutes.
+            Built on AI Agent A2Z Infra. Free trials available for Product Hunt community!
+        </p>
+        <div style="margin-top:20px;">
+            <a href="#" style="color:white; margin:0 10px;">Marketplace</a> |
+            <a href="#" style="color:white; margin:0 10px;">Skills</a> |
+            <a href="#" style="color:white; margin:0 10px;">MCP Clients</a>
+        </div>
+    </footer>
+
+    <script>
+        const legoSteps = [
+            'view_iso.png', 'inventory_parts.png', 'step_0.png', 'step_1.png', 'step_2.png',
+            'step_3.png', 'step_4.png', 'step_5.png', 'step_6.png', 'step_7.png', 'step_8.png', 'step_9.png'
+        ];
+
+        const mcSteps = [
+            'view_iso.png', 'view_front.png', 'view_side.png', 'view_top.png',
+            'step_0.png', 'step_1.png', 'step_2.png', 'step_3.png', 'step_4.png', 'step_5.png'
+        ];
+
+        let currentType = '';
+        let currentIndex = 0;
+        let currentSteps = [];
+
+        function openLightbox(type, index) {
+            currentType = type;
+            currentIndex = 0;
+            const lb = document.getElementById('lightbox');
+            lb.style.display = 'flex';
+
+            const path = type === 'lego' ? '/static/website/yacht_demo_clean/' : '/static/website/minecraft_plan_demo/';
+            currentSteps = type === 'lego' ? legoSteps : mcSteps;
+
+            updateLightboxContent(path);
+        }
+
+        function updateLightboxContent(path) {
+            const mainImg = document.getElementById('main-lightbox-img');
+            const thumbContainer = document.getElementById('thumb-container');
+            const caption = document.getElementById('lightbox-caption');
+
+            mainImg.src = path + currentSteps[currentIndex];
+            caption.innerText = `Step ${currentIndex} - ${currentSteps[currentIndex]}`;
+
+            thumbContainer.innerHTML = '';
+            currentSteps.forEach((step, idx) => {
+                const img = document.createElement('img');
+                img.src = path + step;
+                img.className = idx === currentIndex ? 'active' : '';
+                img.onclick = () => { currentIndex = idx; updateLightboxContent(path); };
+                img.onerror = function() { this.src='https://via.placeholder.com/80?text=Step'; };
+                thumbContainer.appendChild(img);
+            });
+        }
+
+        function changeImage(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = currentSteps.length - 1;
+            if (currentIndex >= currentSteps.length) currentIndex = 0;
+            const path = currentType === 'lego' ? '/static/website/yacht_demo_clean/' : '/static/website/minecraft_plan_demo/';
+            updateLightboxContent(path);
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Close on escape
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>

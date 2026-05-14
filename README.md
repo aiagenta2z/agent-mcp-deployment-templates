@@ -12,27 +12,35 @@ DeepNLP x AI Agent A2Z (aiagenta2z.com) provide public hosting service of AI Age
 
 [Visit Deployment Panel](https://www.deepnlp.org/workspace/deploy)
 
+### News
+1. Host your website is Live: Host and Deploy your index.html homepage at root path of subdomain. Examples: `https://craftsman-agent.aiagenta2z.com/`, `https://coachowl.aiagenta2z.com/` and more.
+
 ### Features
 
 1. Various Deployment methods: template, github_repo, and source code
 2. GitHub/Source Code: Support both Python/Typescript, which is just like how you start your Agent locally, you can deploy in our cloud container and save money of without the heavy cost of renting a cloud server or get a domain name by yourself.
 3. Templates: We provides 20+ templates in various business models, such as `selling product` and `digital resources` e-commerce products agent/mcps as resources, vendors and content creators can expose their physical goods, digital resources (documents,files,online courses) etc to ChatGPT/Cursor.
 4. SubDomain URL: Each user can have a unique subdomain URL for your agents, able to verification and hosting services.
-5. Domain Verification: We support subdomain verification for various platforms, such as OpenAI, WeCom, WeChat, DingTalk, etc.
-6. API Monitor and Credit Rewards: You can visit the [Deployed Agent API Dashboard](https://deepnlp.org/workspace/api_dashboard) to see the metric of your Deploy Agent & MCP and [Billing Credits](https://deepnlp.org/workspace/billing) earned.
+5. Website Homepage: Support deployment website at root domain, such as `https://${subdomain}.aiagenta2z.com`.
+6. Agent/MCP/Skills Supported. You can find various Agents/MCPs deployment templates that is ready to ship.
+7. Domain Verification: We support subdomain verification for various platforms, such as OpenAI, WeCom, WeChat, DingTalk, etc.
+8. API Monitor and Credit Rewards: You can visit the [Deployed Agent API Dashboard](https://deepnlp.org/workspace/api_dashboard) to see the metric of your Deploy Agent & MCP and [Billing Credits](https://deepnlp.org/workspace/billing) earned.
+
 
 ### Examples Deployed
-| Deployment Type  | Framework / Package                              | Example Folder                                                                                                                                                                                                                      | Live URL                                                       | Description                                                                                                                           |
-|------------------|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub Repo      | Quickstart (Typescript)                          | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_typescript)   [`quickstart/mcp_typescript`](quickstart/mcp_typescript/README.md)                                                     | https://quickstart.aiagenta2z.com/mcp_typescript/mcp           | Typescript MCP Quickstart Example                                                                                                     |
-| GitHub Repo      | Quickstart (Python)                              | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_python)  [`quickstart/mcp_python`](quickstart/mcp_python/README.md)                                                                  | https://quickstart.aiagenta2z.com/mcp_python/mcp               | Python MCP Quickstart Example                                                                                                         |
-| GitHub Repo      | LangChain DeepAgents (Multi-Agents)              | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/langchain_deepagents/deep_research)  [`langchain_deepagents/deep_research`](./langchain_deepagents/deep_research/README.md)                         | https://langchain-ai.aiagenta2z.com/deep_research/chat         | LangChain [Examples](https://github.com/langchain-ai/deepagents) DeepResearch Agent of Tavily and Gemini model                        |
+| Deployment Type  | Framework / Package                              | Example Folder                                                                                                                                                                                                                      | Live URL                                                       | Description                                                                                                                          |
+|------------------|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| Source Code      | Quickstart Website Homepage (Python)             | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/website_python)      [`craftsman-agent/default`](./quickstart/website_python/README.md)                                                  | https://craftsman-agent.aiagenta2z.com/   | Website Homepage                                                                                                            |
+| Source Code      | Quickstart Website Homepage (Typescript)         | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/website_typescript)  [`craftsman-agent/default`](./quickstart/website_typescript/README.md)                                              | https://craftsman-agent.aiagenta2z.com/   | Website Homepage                                                                                                            |
+| Source Code      | Perplexity API DeepResearch (Python)             | [GitHub](https://github.com/jjjmc/perplexity_agent)  https://github.com/jjjmc/perplexity_agent                                                                                                                                      | https://jjjmc.aiagenta2z.com/perplexity_agent/mcp              | Perplexity API Deep Search Agent                                                                                                     |
+| Source Code      | Fortune Telling Agent (Typescript - ChatGPT App) | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/chatgpt-apps/fortune-compass-agent)  [`chatgpt-apps/fortune-compass-agent`](./chatgpt-apps/fortune-compass-agent/README.md)                         | https://derekzz.aiagenta2z.com/fortune-compass-agent/mcp                                                     | Fortune Telling App MCP                                                                                                              |
+| GitHub Repo      | Quickstart (Typescript)                          | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_typescript)   [`quickstart/mcp_typescript`](quickstart/mcp_typescript/README.md)                                                     | https://quickstart.aiagenta2z.com/mcp_typescript/mcp           | Typescript MCP Quickstart Example                                                                                                    |
+| GitHub Repo      | Quickstart (Python)                              | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/quickstart/mcp_python)  [`quickstart/mcp_python`](quickstart/mcp_python/README.md)                                                                  | https://quickstart.aiagenta2z.com/mcp_python/mcp               | Python MCP Quickstart Example                                                                                                        |
+| GitHub Repo      | LangChain DeepAgents (Multi-Agents)              | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/langchain_deepagents/deep_research)  [`langchain_deepagents/deep_research`](./langchain_deepagents/deep_research/README.md)                         | https://langchain-ai.aiagenta2z.com/deep_research/chat         | LangChain [Examples](https://github.com/langchain-ai/deepagents) DeepResearch Agent of Tavily and Gemini model                       |
 | GitHub Repo      | LangChain DeepAgents (Agents + Skills)           | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/langchain_deepagents/content-builder-agent)  [`langchain_deepagents/content-builder-agent`](./langchain_deepagents/content-builder-agent/README.md) | https://langchain-ai.aiagenta2z.com/content-builder-agent/chat | LangChain [Examples](https://github.com/langchain-ai/deepagents)  AI Content Builder + Image Generation Agent with Skills + Subagents |
-| GitHub Repo      | ChatGPT Apps SDK                                 | [GitHub](https://github.com/openai/openai-apps-sdk-examples)    [`ChatGPT Apps`](https://github.com/openai/openai-apps-sdk-examples)                                                                                                | https://derekzz.aiagenta2z.com/solar-system_server_python/mcp  | ChatGPT App with MCP + Assets                                                                                                         |
-| GitHub Repo      | AgentScope + Qwen3 + Tavily                      | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/agentscope_examples/deep_research_agent)  [`agentscope_examples/deep_research_agent`](./agentscope_examples/deep_research_agent/README.md)          | https://agentscope.aiagenta2z.com/deep_research_agent/chat     | AgentScope Deep Research Live Chat                                                                                                    |
-| Source Code      | Python - Perplexity API DeepResearch             | [GitHub](https://github.com/jjjmc/perplexity_agent)  https://github.com/jjjmc/perplexity_agent                                                                                                                                      | https://jjjmc.aiagenta2z.com/perplexity_agent/mcp              | Perplexity API Deep Search Agent                                                                                                      |
-| Source Code      | Typescript - Fortune Telling Agent (ChatGPT App) | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/chatgpt-apps/fortune-compass-agent)  [`chatgpt-apps/fortune-compass-agent`](./chatgpt-apps/fortune-compass-agent/README.md)                         | https://derekzz.aiagenta2z.com/fortune-compass-agent/mcp                                                     | Fortune Telling App MCP                                                                                                               |
-| Template Product | Deployment Templates                             |                                                                                                                                                                                                                                     | -                                                              | Deployment Template of OpenClaw/E-Commerce/etc                                                                                        |
+| GitHub Repo      | ChatGPT Apps SDK                                 | [GitHub](https://github.com/openai/openai-apps-sdk-examples)    [`ChatGPT Apps`](https://github.com/openai/openai-apps-sdk-examples)                                                                                                | https://derekzz.aiagenta2z.com/solar-system_server_python/mcp  | ChatGPT App with MCP + Assets                                                                                                        |
+| GitHub Repo      | AgentScope + Qwen3 + Tavily                      | [GitHub](https://github.com/aiagenta2z/agent-mcp-deployment-templates/tree/main/agentscope_examples/deep_research_agent)  [`agentscope_examples/deep_research_agent`](./agentscope_examples/deep_research_agent/README.md)          | https://agentscope.aiagenta2z.com/deep_research_agent/chat     | AgentScope Deep Research Live Chat                                                                                                   |
+| Template Product | Deployment Templates                             |                                                                                                                                                                                                                                     | -                                                              | Deployment Template of OpenClaw/E-Commerce/etc                                                                                       |
 
 
 ### Support SDK and Packages
@@ -40,6 +48,40 @@ DeepNLP x AI Agent A2Z (aiagenta2z.com) provide public hosting service of AI Age
 We provide python and typescript runtime suitable for various packages and framework, such as  [langchain](https://www.langchain.com/agents) , [agentscope](https://doc.agentscope.io/tutorial/), etc.
 
 ## Quickstart
+### 0. Website Homepage - Python
+
+**Overview**
+
+This templates implements a python FastAPI based website server with static files of index.html and /static folder containing images.
+The website is live on [https://craftsman-agent.aiagenta2z.com](https://craftsman-agent.aiagenta2z.com) with subdomain registered
+as "craftsman-agent".  You can use this template to deploy your own website with live URL as `https://{subdomain}.aiagenta2z.com`.
+
+<img src="https://raw.githubusercontent.com/aiagenta2z/agent-mcp-deployment-templates/refs/heads/main/docs/quickstart_website_python_homepage.png" style="width: 800px" alt="Homepage Website">
+
+**Entry Point**
+
+```shell
+### Running Locally
+uvicorn python.src.web:app
+```
+
+For more details, please visit [README.md](quickstart/website_python/README.md).
+
+
+### 0. Website Homepage - Typescript
+
+**Overview**
+
+This templates implements a typescript based website server with static files of index.html and /static folder containing images.
+The website is live on [https://craftsman-agent.aiagenta2z.com](https://craftsman-agent.aiagenta2z.com) with subdomain registered
+as "craftsman-agent".  You can use this template to deploy your own website with live URL as `https://{subdomain}.aiagenta2z.com`.
+
+**Entry Point**
+```shell
+pnpm run serve
+```
+
+For more details, please visit [README.md](quickstart/website_typescript/README.md)
 
 ### 1. Typescript - MCP Server
 
